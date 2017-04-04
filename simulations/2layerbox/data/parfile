@@ -1,0 +1,38 @@
+# Parameter file for 3D NDG software
+
+# Convinience Parameters
+log		= .true.	#log to screen?
+
+# Model parameters
+external	= .true.	#read external model?
+
+# Number of Processors
+nproc		= 46          		    
+
+# Movie parameters 
+vtk		= .true.	#save vtkfiles?
+movie		= .true.	#save movie?
+frame		= 50		#Number of timesteps for each fram of the movie
+
+# Time integration parameters
+time_kind       = 0             # 0: use given time steps, 1: use given simulation time
+tduration       = 0.012         # simulation time [s]
+timeint		= 2		#which timeintegration?  1:euler  2:rk2 3:rk3
+nt		= 6000		#number of timesteps
+cfl		= 0.4		#which clf value for dt?
+
+# attenuation
+attenuation             = .false.    # "true" to enable attenuation otherwise .false.
+f0_att                  = 600.       # frequency for anelastic modulus def:500
+fr_att                  = 200.        # lower freq bound f0/3.4? def:144
+
+# PML
+
+set_pml		= .true.	# .true. to use Perfectly Matched Layers otherwise .false.
+pml_delta	= 1.5		# Width of PML
+pml_rc		= 0.01  	# Reflection coefficient of PML
+pml_kmax	= 1		# k of PML (default: 1)
+pml_afac	= 2.5		# Factor for amax
+avg_window1     = 10            # LTA window
+avg_window2     = 2             # STA window
+sta_lta_trigger = 0.1           # Trigger treshold  

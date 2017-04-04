@@ -1,0 +1,24 @@
+# List of Source(s)
+# Sources should be added sequentially. Otherwise problems will occur when reading the file
+
+# Number of sources
+nsrc            = 1             # Number of sources
+
+# Source 1 - Parameters
+source          = 1
+xsource         = 5.0           # x coordinate of source
+ysource         = 5.0           # y coordinate of source
+zsource         = 7.0          # z coordinate of source
+sourcetype      = 1             # Type of source: 1 = Moment tensor, 0 = single force
+stf             = 2             # Type of source-time-function: 1 = green, 2 = ricker
+f0              = 600.          # center frequency of sft
+factor          = 1.            # factor of the stf
+xangle_force    = 0.0            # x-comp of the force action on the medium
+yangle_force    = 0.0            # y-comp of the force action on the medium
+zangle_force    = -1.            # z-comp of the force action in the media
+Mxx             = 0.            # Momenttensor Mxx
+Myy             = 1.            # Momenttensor Myy
+Mzz             = 1.            # Momenttensor Mzz
+Mxy             = 0.            # Momenttensor Mxz
+Mxz             = 0.            # Momenttensor Mxy
+Myz             = 0.            # Momenttensor Mzy

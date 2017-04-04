@@ -1,0 +1,87 @@
+reset
+
+brick x 10 y 10 z 10
+move volume 1 location 5 5 5 include_merged
+webcut volume 1 with plane normal to curve 9 distance 5 from vertex 7
+
+webcut volume all with plane normal to curve 3 distance 1.5 from vertex 4
+webcut volume all with plane normal to curve 2 distance 1.5 from vertex 2
+webcut volume all with plane normal to curve 60 distance 1.5 from vertex 3
+webcut volume all with plane normal to curve 114 distance 1.5 from vertex 3
+webcut volume all with plane normal to curve 17 distance 1.5 from vertex 5
+
+imprint all
+merge all
+
+vol all size 0.4
+volume all scheme Tetmesh
+mesh volume all
+
+block 1 tet in vol 16
+block 2 tet in vol 10 4 2 14 6 8 12 18
+block 3 tet in vol 26
+block 4 tet in vol 23 20 19 9 3 1 25 21 5 13 22 7 24 11 27 17 15 21
+
+block 1 name "elastic 1"         # elastic 1
+block 1 attribute count 7
+block 1 attribute index 1 1     # flag for material: 1 for 1. material
+block 1 attribute index 2 3200   # vp
+block 1 attribute index 3 1847.5   # vs
+block 1 attribute index 4 2200   # rho
+block 1 attribute index 5 50.0  # Qmu
+block 1 attribute index 6 40.0  # Qkappa
+block 1 attribute index 7 0  # PML
+
+block 2 name "elastic 2"         # elastic 2 (elastic 1 PML)
+block 2 attribute count 7
+block 2 attribute index 1 2     # flag for material: 2 for 2. material
+block 2 attribute index 2 3200   # vp
+block 2 attribute index 3 1847.5   # vs
+block 2 attribute index 4 2200   # rho
+block 2 attribute index 5 50.0  # Qmu
+block 2 attribute index 6 40.0  # Qkappa
+block 2 attribute index 7 1  # PML
+
+block 3 name "elastic 3"         # elastic 3 
+block 3 attribute count 7
+block 3 attribute index 1 3     # flag for material: 3 for 3. material
+block 3 attribute index 2 2000   # vp
+block 3 attribute index 3 1200   # vs
+block 3 attribute index 4 3000   # rho
+block 3 attribute index 5 100.0  # Qmu
+block 3 attribute index 6 80.0  # Qkappa
+block 3 attribute index 7 0  # PML
+
+block 4 name "elastic 4"        # elastic 4 (elastic 2 PML)
+block 4 attribute count 7
+block 4 attribute index 1 4     # flag for material: 4 for 4. material
+block 4 attribute index 2 2000   # vp
+block 4 attribute index 3 1200   # vs
+block 4 attribute index 4 3000   # rho
+block 4 attribute index 5 100.0  # Qmu
+block 4 attribute index 6 80.0  # Qkappa
+block 4 attribute index 7 1  # PML
+
+block 5 tri in surf  131 149 171 173 156 133 55 109 115
+block 6 tri in surf 108 116 205 213 236 198 211 229 76 175 168 235 263 225 228 261 219 96 88 29 226 196 186 218 188 178 130 134 56 183 245 206 181 239 199 119 126 43 141 143 101 159 166 103 31 
+
+block 5 name "free"
+block 6 name "absorb"
+
+save as "mesh.cub" overwrite
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
