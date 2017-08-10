@@ -255,12 +255,12 @@ contains
         endif
 
         do ie=1,mesh%nelem
-            elasticfluxvar(ie,1)=-(mesh%lambda(ie)+2*mesh%mu(ie))
-            elasticfluxvar(ie,2)=-mesh%lambda(ie)
-            elasticfluxvar(ie,3)=-mesh%mu(ie)
+            elasticfluxvar(ie,1)=-(mesh%lambdau(ie)+2*mesh%muu(ie))
+            elasticfluxvar(ie,2)=-mesh%lambdau(ie)
+            elasticfluxvar(ie,3)=-mesh%muu(ie)
             elasticfluxvar(ie,4)=-1.0/mesh%rho(ie)
-            APA(ie,:,:)=getAPA(mesh%vp(ie),mesh%vs(ie),mesh%rho(ie),mesh%lambda(ie),mesh%mu(ie))
-            if (par%attenuation) aAPA(ie,:,:) = getAnelasticAPA(mesh%vp(ie),mesh%vs(ie),mesh%rho(ie),mesh%lambda(ie),mesh%mu(ie))
+            APA(ie,:,:)=getAPA(mesh%vpu(ie),mesh%vsu(ie),mesh%rho(ie),mesh%lambdau(ie),mesh%muu(ie))
+            if (par%attenuation) aAPA(ie,:,:) = getAnelasticAPA(mesh%vpu(ie),mesh%vsu(ie),mesh%rho(ie),mesh%lambdau(ie),mesh%muu(ie))
             do is=1,4
                 T(ie,is,:,:)      =getT(mesh%nnormal(:,is,ie),mesh%stangential(:,is,ie),mesh%ttangential(:,is,ie))
                 invT(ie,is,:,:)   =getinvT(mesh%nnormal(:,is,ie),mesh%stangential(:,is,ie),mesh%ttangential(:,is,ie))
@@ -274,8 +274,8 @@ contains
         if (par%attenuation) then
             do ie=1,mesh%nelem
                 do i=1,nMB
-                    anelasticvar(3*nMB*(ie-1)+3*(i-1)+1) = -mesh%lambda(ie)*mesh%ylambda(i,ie)
-                    anelasticvar(3*nMB*(ie-1)+3*(i-1)+2) = -2*mesh%mu(ie)*mesh%ymu(i,ie)
+                    anelasticvar(3*nMB*(ie-1)+3*(i-1)+1) = -mesh%lambdau(ie)*mesh%ylambda(i,ie)
+                    anelasticvar(3*nMB*(ie-1)+3*(i-1)+2) = -2*mesh%muu(ie)*mesh%ymu(i,ie)
                     anelasticvar(3*nMB*(ie-1)+3*(i-1)+3) = anelasticvar(3*nMB*(ie-1)+3*(i-1)+1)+anelasticvar(3*nMB*(ie-1)+3*(i-1)+2)
                 enddo
             enddo
@@ -317,7 +317,7 @@ contains
 
 
         do it=1,par%nt
-            stf(it)=(it-1)*deltat                       ! get time in simulation
+            stf(it)=it*deltat                       ! get time in simulation
         enddo
 
         if (par%log.and.myrank==0) then

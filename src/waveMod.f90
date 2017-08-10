@@ -352,7 +352,7 @@ contains
     integer, dimension(:) :: mpi_icon
     real(kind=CUSTOM_REAL), dimension(Npf,9) :: qtemp_n,qtemp_t
     real(kind=CUSTOM_REAL), dimension(NpF,6) :: atemp_t
-    real(kind=CUSTOM_REAL), dimension(6,9) :: aVT,aVTfree
+    real(kind=CUSTOM_REAL), dimension(4,6,9) :: aVT,aVTfree
     integer :: is,in,i,j,ie
     integer :: mpi_e, mpi_n
     integer :: myrank
@@ -363,7 +363,7 @@ contains
             qtemp_t=q(ibt(:,is),:)
             qtemp_n=q(ibn(:,is),:)
             do i=1,NpF
-                atemp_t(i,:) = matmul(aVT,(qtemp_n(i,:)-qtemp_t(i,:)))
+                atemp_t(i,:) = matmul(aVT(is,:,:),(qtemp_n(i,:)-qtemp_t(i,:)))
             end do
             do j=1,6
              flux(((is-1)*NpF+1):(is*NpF),j) = atemp_t(:,j)
@@ -373,7 +373,7 @@ contains
         else if ((in==0).and.(face(is) == -1)) then ! free
             qtemp_t=q(ibt(:,is),:)
             do i=1,NpF
-                atemp_t(i,:) = matmul(aVTfree,qtemp_t(i,:))
+                atemp_t(i,:) = matmul(aVTfree(is,:,:),qtemp_t(i,:))
             end do
             do j=1,6
                 flux(((is-1)*NpF+1):(is*NpF),j) = atemp_t(:,j)
@@ -381,7 +381,7 @@ contains
         else if ((in==0).and.face(is) == -2) then !absorb
             qtemp_t=q(ibt(:,is),:)
             do i=1,NpF
-                atemp_t(i,:) = -matmul(aVT,qtemp_t(i,:))
+                atemp_t(i,:) = -matmul(aVT(is,:,:),qtemp_t(i,:))
             end do
             do j=1,6
                 flux(((is-1)*NpF+1):(is*NpF),j) = atemp_t(:,j)
@@ -394,7 +394,7 @@ contains
                 qtemp_n(i,:)=qi(mpi_ibt(i,is),:,mpi_e,mpi_n)
             end do
             do i=1,NpF
-                atemp_t(i,:) = matmul(aVT,(qtemp_n(i,:)-qtemp_t(i,:)))
+                atemp_t(i,:) = matmul(aVT(is,:,:),(qtemp_n(i,:)-qtemp_t(i,:)))
             end do
             do j=1,6
                 flux(((is-1)*NpF+1):(is*Npf),j) = atemp_t(:,j)

@@ -908,12 +908,21 @@ contains
                     db(iproc)%wl(:)=this%wl(:)
                     db(iproc)%pml(l)=this%pml(ie)
                     !                db(iproc)%vol(l)=this%vol(ie)
-                    if (this%matval(db(iproc)%mat(l),3) .gt. 0) then
-                        db(iproc)%mu(l)=this%mu(ie)
+                    if (par%attenuation) then
+                        if (this%vs(l) .gt. 0) then
+                            db(iproc)%mu(l)=this%muu(ie)
+                        else
+                            db(iproc)%mu(l)=0.0
+                        end if
+                        db(iproc)%lambda(l)=this%lambdau(ie)
                     else
-                        db(iproc)%mu(l)=0.0
-                    end if
-                    db(iproc)%lambda(l)=this%lambda(ie)
+                        if (this%vs(l) .gt. 0) then
+                            db(iproc)%mu(l)=this%mu(ie)
+                        else
+                            db(iproc)%mu(l)=0.0
+                        end if
+                        db(iproc)%lambda(l)=this%lambda(ie)
+                    endif
                 end if
             end do
             if (.not.par%attenuation) then
