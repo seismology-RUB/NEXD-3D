@@ -928,6 +928,8 @@ contains
             if (.not.par%attenuation) then
                 db(iproc)%vpu=db(iproc)%vp
                 db(iproc)%vsu=db(iproc)%vs
+                db(iproc)%lambdau=db(iproc)%lambda
+                db(iproc)%muu=db(iproc)%mu
             endif
 
             !"--------------------------------------------------------------------------------------"
@@ -1336,6 +1338,18 @@ contains
             write(filename,"('/rec.vtk')")
             filename=trim(outpath)//trim(filename)
             call writeVtkNodes(filename, rec%recxyz(1,:),rec%recxyz(2,:),rec%recxyz(3,:))
+
+            write(filename,"('/vp_model.vtk')")
+            filename=trim(outpath)//trim(filename)
+            call writeVtkTetraMeshRealdata(filename, this%elem, this%coord, this%vp)
+
+            write(filename,"('/vs_model.vtk')")
+            filename=trim(outpath)//trim(filename)
+            call writeVtkTetraMeshRealdata(filename, this%elem, this%coord, this%vs)
+
+            write(filename,"('/rho_model.vtk')")
+            filename=trim(outpath)//trim(filename)
+            call writeVtkTetraMeshRealdata(filename, this%elem, this%coord, this%rho)
 
         end if
 
